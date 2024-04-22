@@ -1,26 +1,24 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import { useNetwork } from "./hooks"
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+interface Data {
+    completed: false
+    userId: number
+    title: string,
+    id: number,
 }
 
-export default App;
+const App = () => {
+    const { data, isFetching, error, isLoading, refetch } = useNetwork<Data[]>({
+        path: "todos/1",
+        queryKey: "test"
+    })
+
+    return (
+        <div>
+            <button onClick={() => console.log(data)}>DATA</button>
+            <button onClick={() => refetch()}>REFETCH</button>
+            <button onClick={() => console.log({ data, isLoading, error, isFetching })}>MORE OPTIONS</button>
+        </div>
+    )
+}
+export default App
